@@ -53,18 +53,18 @@ void setup() {
 
 void loop() {
 
-  float U = 7.5; //Gerilim V
+  float U = 7.5; // Voltage (V)
 
   float I = sensor.getCurrentAC();
   if (I < 0.06 ){
     I = 0;
   }
-  float P = U * I;
+  float P = U * I; // Power (W)
 
 
-  float v1 = P*1000;
-  float v2 = I*1000;
-  float v3 = U*1000;
+  float v1 = P*1000; //mW 
+  float v2 = I*1000; //mA
+  float v3 = U*1000; //mV
 
   Serial.println(String("I = ") + I + " A");
   Serial.println(String("P = ") + P + " Watts");
@@ -72,9 +72,9 @@ void loop() {
   sendData(v1,v2,v3);
 }
 
-// Subroutine for sending data to Google Sheets
+//Sending data to Google Sheets
 void sendData(int v1, int v2, int v3) {
-  //----------------------------------------Connect to Google host
+  //----------------------------------------Connect to Google
   if (!client.connect(host, httpsPort)) {
     Serial.println("connection failed");
     return;
@@ -82,19 +82,19 @@ void sendData(int v1, int v2, int v3) {
   String string_val1 =  String(v1);
   String string_val2 =  String(v2); 
   String string_val3 =  String(v3);
+  // This will send the request to the server
   String url = "/macros/s/" + GAS_ID + "/exec?value1=" + string_val1 + "&value2=" + string_val2 + "&value3=" + string_val3;
   Serial.print("requesting URL: ");
   Serial.println(url);
-
+  
   client.print(String("GET ") + url + " HTTP/1.1\r\n" +
          "Host: " + host + "\r\n" +
          "User-Agent: BuildFailureDetectorESP8266\r\n" +
          "Connection: close\r\n\r\n");
 
   Serial.println("request sent");
-  //----------------------------------------
 
-  //----------------------------------------Checking whether the data was sent successfully or not
+  //Check the data
   while (client.connected()) {
     String line = client.readStringUntil('\n');
     if (line == "\r") {

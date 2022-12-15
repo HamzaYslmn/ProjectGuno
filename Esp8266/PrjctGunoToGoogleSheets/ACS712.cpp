@@ -17,7 +17,7 @@ ACS712::ACS712(ACS712_type type, uint8_t _pin) {
 	}
 }
 
-int ACS712::calibrate() {
+int ACS712::calibrate() { // Returns the zero point
 	uint16_t acc = 0;
 	for (int i = 0; i < 20; i++) {
 		acc += analogRead(pin);
@@ -27,15 +27,15 @@ int ACS712::calibrate() {
 	return zero;
 }
 
-void ACS712::setZeroPoint(int _zero) {
+void ACS712::setZeroPoint(int _zero) { // Set the zero point
 	zero = _zero;
 }
 
-void ACS712::setSensitivity(float sens) {
+void ACS712::setSensitivity(float sens) { // Set the sensitivity
 	sensitivity = sens;
 }
 
-float ACS712::getCurrentDC() {
+float ACS712::getCurrentDC() { 		// Returns the current in A
 	int16_t acc = 0;
 	for (int i = 0; i < 10; i++) {
 		acc += analogRead(pin) - zero;
@@ -44,8 +44,8 @@ float ACS712::getCurrentDC() {
 	return I;
 }
 
-float ACS712::getCurrentAC(uint16_t frequency) {
-	uint32_t period = 1000000 / frequency;
+float ACS712::getCurrentAC(uint16_t frequency) { // Returns the current in A
+	uint32_t period = 1000000 / frequency; 
 	uint32_t t_start = micros();
 
 	uint32_t Isum = 0, measurements_count = 0;
@@ -57,6 +57,6 @@ float ACS712::getCurrentAC(uint16_t frequency) {
 		measurements_count++;
 	}
 
-	float Irms = sqrt(Isum / measurements_count) / ADC_SCALE * VREF / sensitivity;
+	float Irms = sqrt(Isum / measurements_count) / ADC_SCALE * VREF / sensitivity; // RMS current
 	return Irms;
 }
