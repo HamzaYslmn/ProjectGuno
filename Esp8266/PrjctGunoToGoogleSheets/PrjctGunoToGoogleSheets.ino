@@ -53,7 +53,7 @@ void setup() {
 
 void loop() {
 
-  float U = 7.5; // Voltage (V)
+  float U = 6; // Voltage (V)
 
   float I = sensor.getCurrentAC();
   if (I < 0.06 ){
