@@ -1,2 +1,2 @@
 # ProjectGuno
-MCBU Okul Projesi
+MCBU Mini Okul Projesi
