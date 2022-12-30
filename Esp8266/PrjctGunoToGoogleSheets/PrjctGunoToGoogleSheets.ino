@@ -7,7 +7,7 @@
 
 ACS712 sensor(ACS712_05B, A0);
 
-const char* ssid = SECRET_SSID;
+const char* ssid = "PrjctGuno";
 const char* password = SECRET_PSWD;
 
 const char* host = "script.google.com";
@@ -53,7 +53,7 @@ void setup() {
 
 void loop() {
 
-  float U = 6; // Voltage (V)
+  float U = random(6, 7); // Voltage (V)
 
   float I = sensor.getCurrentAC();
   if (I < 0.06 ){
